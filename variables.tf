@@ -4,6 +4,12 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
+# AWS Region: North of Virginia
+variable "aws_profile" {
+  type    = string
+  default = ""
+}
+
 /* EC2 Instance type */
 #Use: instance_type = var.instance_type["type1"]
 variable "instance_type" {
@@ -18,7 +24,7 @@ variable "instance_type" {
 # SSH Key-Pair 
 variable "key_name" {
   type    = string
-  default = "CTesting"
+  default = ""
 }
 
 /* Tags Variables */

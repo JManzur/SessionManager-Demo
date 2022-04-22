@@ -16,6 +16,8 @@
 - RDP Security Group.
 - EC2 Instance IAM Role to allow SSM operations.
 
+>:warning: **Instances MUST be placed on a private subnet with internet egress capabilities**. :warning:
+
 ### Deployment diagram:
 
 ![App Screenshot](images/SSM_SessionManager.drawio.png)

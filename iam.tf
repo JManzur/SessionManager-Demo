@@ -2,8 +2,9 @@
 
 # EC2 IAM Policy Document
 data "aws_iam_policy_document" "ec2_policy_source" {
+  #Systems Manager Limited: List, Read, Write 
   statement {
-    sid    = "AllowSSMSessionManager"
+    sid    = "SystemsManagerLRW"
     effect = "Allow"
     actions = [
       "ssm:DescribeAssociation",
@@ -20,11 +21,29 @@ data "aws_iam_policy_document" "ec2_policy_source" {
       "ssm:PutConfigurePackageResult",
       "ssm:UpdateAssociationStatus",
       "ssm:UpdateInstanceAssociationStatus",
-      "ssm:UpdateInstanceInformation",
+      "ssm:UpdateInstanceInformation"
+    ]
+    resources = ["*"]
+  }
+
+  #SSM Messages Full access
+  statement {
+    sid    = "SSMMessagesFull"
+    effect = "Allow"
+    actions = [
       "ssmmessages:CreateControlChannel",
       "ssmmessages:CreateDataChannel",
       "ssmmessages:OpenControlChannel",
-      "ssmmessages:OpenDataChannel",
+      "ssmmessages:OpenDataChannel"
+    ]
+    resources = ["*"]
+  }
+
+  #EC2 Messages Full access
+  statement {
+    sid    = "EC2MessagesFull"
+    effect = "Allow"
+    actions = [
       "ec2messages:AcknowledgeMessage",
       "ec2messages:DeleteMessage",
       "ec2messages:FailMessage",
@@ -42,11 +61,8 @@ data "aws_iam_policy_document" "ec2_role_source" {
     sid    = "EC2AssumeRole"
     effect = "Allow"
     principals {
-      type = "Service"
-      identifiers = [
-        "ec2.amazonaws.com",
-        "ssm.amazonaws.com"
-      ]
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
     }
     actions = ["sts:AssumeRole"]
   }
