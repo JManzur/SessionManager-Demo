@@ -20,6 +20,8 @@
 
 ![App Screenshot](images/SSM_SessionManager.drawio.png)
 
+>:warning: VPC resources are not included in the templates.
+
 ## Tested with: 
 
 | Environment | Application | Version  |
@@ -51,14 +53,14 @@ terraform apply
 
 ## Testing the solution:
 
-### Test locally using the provided script:
+### Start a Terminal Session (Bash or Powershell) locally using the provided script:
 
 ```bash
 #Run the script passing the instance ID as a variable:
 bash scripts/start-session.sh -i-abcdef0987654321
 ```
 
-### Test from the AWS Console:
+### Start a Terminal Session (Bash or Powershell) or RDP Session from the AWS Console:
 
 - Go to the AWS Console
 - Open the AWS Systems Manager Console.
