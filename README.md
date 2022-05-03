@@ -59,7 +59,7 @@ terraform apply
 
 ```bash
 #Run the script passing the instance ID as a variable:
-bash scripts/start-session.sh -i-abcdef0987654321
+bash scripts/start-session.sh i-abcdef0987654321
 ```
 
 ### Start a Terminal Session (Bash or Powershell) or RDP Session from the AWS Console:

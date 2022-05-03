@@ -51,3 +51,13 @@ variable "private-subnet-id" {
   type    = string
   default = ""
 }
+
+variable "CreateLinux" {
+  type    = bool
+  default = "true"
+}
+
+variable "CreateWindows" {
+  type    = bool
+  default = "true"
+}

@@ -10,13 +10,13 @@ data "aws_ami" "linux2" {
 }
 
 # Grabbing latest Windows Server 2019
-data "aws_ami" "win2019" {
+data "aws_ami" "win2022" {
   most_recent = true
   owners      = ["801119661308"]
 
   filter {
     name   = "name"
-    values = ["Windows_Server-2019-English-Full-Base-*"]
+    values = ["Windows_Server-2022-English-Full-Base-*"]
   }
 
   filter {
@@ -33,12 +33,12 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 
 # Linux EC2 Instance
 resource "aws_instance" "linux" {
+  count = var.CreateLinux ? 1 : 0 #If CreateLinux == "true", then create 1 instance, else do nothing
   ami                    = data.aws_ami.linux2.id
   instance_type          = var.instance_type["type1"]
   subnet_id              = var.private-subnet-id
   key_name               = var.key_name
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
-  vpc_security_group_ids = [aws_security_group.linux.id]
 
   user_data = <<EOF
   #!/bin/bash
@@ -61,12 +61,12 @@ resource "aws_instance" "linux" {
 
 # Windows EC2 Instance
 resource "aws_instance" "windows" {
-  ami                    = data.aws_ami.win2019.id
+  count = var.CreateWindows ? 1 : 0 #If CreateWindows == "true", then create 1 instance, else do nothing
+  ami                    = data.aws_ami.win2022.id
   instance_type          = var.instance_type["type1"]
   subnet_id              = var.private-subnet-id
   key_name               = var.key_name
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
-  vpc_security_group_ids = [aws_security_group.windows.id]
 
   user_data = <<EOF
   <powershell>
@@ -88,10 +88,10 @@ resource "aws_instance" "windows" {
 
 output "Linux_Instance_ID" {
   description = "The Linux EC2 instance ID"
-  value       = aws_instance.linux.id
+  value       = aws_instance.linux[count.index].id
 }
 
 output "Windows_Instance_ID" {
   description = "The Windows EC2 instance ID"
-  value       = aws_instance.windows.id
+  value       = aws_instance.windows[count.index].id
 }

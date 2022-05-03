@@ -3,8 +3,7 @@
 # Ref.: https://docs.aws.amazon.com/cli/latest/reference/ssm/start-session.html
 
 #Variables:
-KEY_NAME=CTesting
-PROFILE=CTesting
+PROFILE=default
 REGION=us-east-1
 
 # Check parameters:
