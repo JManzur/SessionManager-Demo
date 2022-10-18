@@ -27,18 +27,19 @@ data "aws_ami" "win2022" {
 
 #EC2 IAM Instance Profile
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "AppConfigPOCInstanceProfile"
+  name = "SessionManagerProfile"
   role = aws_iam_role.ec2_policy_role.name
 }
 
 # Linux EC2 Instance
 resource "aws_instance" "linux" {
-  count = var.CreateLinux ? 1 : 0 #If CreateLinux == "true", then create 1 instance, else do nothing
-  ami                    = data.aws_ami.linux2.id
-  instance_type          = var.instance_type["type1"]
-  subnet_id              = var.private-subnet-id
-  key_name               = var.key_name
-  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+  count                = var.CreateLinux ? 1 : 0 #If CreateLinux == "true", then create 1 instance, else do nothing
+  ami                  = data.aws_ami.linux2.id
+  instance_type        = var.instance_type["type1"]
+  subnet_id            = var.private-subnet-id
+  key_name             = var.key_name
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  security_groups      = [aws_security_group.ping.id]
 
   user_data = <<EOF
   #!/bin/bash
@@ -61,17 +62,18 @@ resource "aws_instance" "linux" {
 
 # Windows EC2 Instance
 resource "aws_instance" "windows" {
-  count = var.CreateWindows ? 1 : 0 #If CreateWindows == "true", then create 1 instance, else do nothing
-  ami                    = data.aws_ami.win2022.id
-  instance_type          = var.instance_type["type1"]
-  subnet_id              = var.private-subnet-id
-  key_name               = var.key_name
-  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+  count                = var.CreateWindows ? 1 : 0 #If CreateWindows == "true", then create 1 instance, else do nothing
+  ami                  = data.aws_ami.win2022.id
+  instance_type        = var.instance_type["type1"]
+  subnet_id            = var.private-subnet-id
+  key_name             = var.key_name
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  security_groups      = [aws_security_group.ping.id]
 
   user_data = <<EOF
   <powershell>
   Install-WindowsFeature Telnet-Client
-  mkdir C:\temp
+  mkdir C:\tmp
   Write-Output "Hello from SSM Session Manager at $(Get-Date)" >> C:\tmp\hello.txt
   </powershell>
   EOF
@@ -88,10 +90,18 @@ resource "aws_instance" "windows" {
 
 output "Linux_Instance_ID" {
   description = "The Linux EC2 instance ID"
-  value       = aws_instance.linux[count.index].id
+  value       = var.CreateLinux ? "${aws_instance.linux[0].id}" : "Linux instance not deployed by user choice"
+
+  depends_on = [
+    aws_instance.linux
+  ]
 }
 
 output "Windows_Instance_ID" {
   description = "The Windows EC2 instance ID"
-  value       = aws_instance.windows[count.index].id
+  value       = var.CreateWindows ? "${aws_instance.windows[0].id}" : "Windows instance not deployed by user choice"
+
+  depends_on = [
+    aws_instance.linux
+  ]
 }

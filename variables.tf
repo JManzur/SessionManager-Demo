@@ -1,13 +1,11 @@
 # AWS Region: North of Virginia
 variable "aws_region" {
-  type    = string
-  default = "us-east-1"
+  type = string
 }
 
 # AWS Region: North of Virginia
 variable "aws_profile" {
-  type    = string
-  default = ""
+  type = string
 }
 
 /* EC2 Instance type */
@@ -23,8 +21,7 @@ variable "instance_type" {
 
 # SSH Key-Pair 
 variable "key_name" {
-  type    = string
-  default = ""
+  type = string
 }
 
 /* Tags Variables */
@@ -43,18 +40,16 @@ variable "resource-name-tag" {
 }
 
 variable "vpc-id" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "private-subnet-id" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "CreateLinux" {
   type    = bool
-  default = "true"
+  default = "false"
 }
 
 variable "CreateWindows" {

@@ -1,6 +1,7 @@
 #User Added:
 .terraform.lock.hcl
 test.auto.tfvars
+default.auto.tfvars
 
 # Local .terraform directories
 **/.terraform/*
