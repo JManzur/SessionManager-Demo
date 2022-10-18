@@ -1,5 +1,0 @@
-vpc-id            = "vpc-09442c07c2b249900"
-private-subnet-id = "subnet-026c86b2f1ce598d6"
-aws_profile       = "Caylent-Testing-CLI"
-aws_region        = "us-east-1"
-key_name          = "jmanzur-caylent-test"
