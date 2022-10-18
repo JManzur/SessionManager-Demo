@@ -28,8 +28,8 @@
 
 | Environment | Application | Version  |
 | ----------------- |-----------|---------|
-| WSL2 Ubuntu 20.04 | Terraform | v1.1.8 |
-| WSL2 Ubuntu 20.04 | Terraform | v2.5.3 |
+| WSL2 Ubuntu 22.04 | Terraform | v1.3.2 |
+| WSL2 Ubuntu 22.04 | AWS Cli | v2.7.29 |
 
 ## Initialization How-To:
 
