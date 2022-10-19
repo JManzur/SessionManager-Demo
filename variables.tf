@@ -49,7 +49,7 @@ variable "private-subnet-id" {
 
 variable "CreateLinux" {
   type    = bool
-  default = "false"
+  default = "true"
 }
 
 variable "CreateWindows" {

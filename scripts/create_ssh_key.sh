@@ -3,8 +3,8 @@
 # Previous execution of "aws configure" is needed
 
 #Variables:
-KEY_NAME=CTesting
-PROFILE=CTesting
+KEY_NAME=KeyNamePlaceHolder
+PROFILE=YourProfile
 REGION=us-east-1
 
 #Create Key:

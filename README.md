@@ -11,10 +11,9 @@
 ## Resources deployed by this manifest:
 
 - Linux EC2 Instance.
-- Windows 2019 EC2 Instance.
-- SSH Security Group.
-- RDP Security Group.
-- EC2 Instance IAM Role to allow SSM operations.
+- Windows Server 2022 EC2 Instance.
+- PING Security Group.
+- Instance Profile to allow SSM operations.
 
 >:warning: **Instances MUST be placed on a private subnet with internet egress capabilities**. :warning:
 
@@ -29,17 +28,27 @@
 | Environment | Application | Version  |
 | ----------------- |-----------|---------|
 | WSL2 Ubuntu 22.04 | Terraform | v1.3.2 |
-| WSL2 Ubuntu 22.04 | AWS Cli | v2.7.29 |
+| WSL2 Ubuntu 22.04 | AWS CLI | v2.7.29 |
 
 ## Initialization How-To:
 
-Located in the root directory, make an "aws configure" to log into the aws account, and a "terraform init" to download the necessary modules and start the backend.
+Located in the root directory, create a file called `default.auto.tfvars` with a content like the following:
 
 ```bash
-aws configure
+vpc-id            = "vpc-01234567890"
+private-subnet-id = "subnet-01234567890"
+aws_profile       = "SomeProfile"
+aws_region        = "us-east-1"
+key_name          = "YourKey"
+```
+
+Initialice the direcotry to download the necessary modules and start the backend.
+
+```bash
 terraform init
 ```
-Generate a Key-Pair using the provided script:
+
+> :bulb: If you don't have a key pair, you can generate one using the provided script:
 
 ```bash
 bash scripts/create_ssh_key.sh
